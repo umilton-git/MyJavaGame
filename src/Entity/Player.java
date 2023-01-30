@@ -28,7 +28,14 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
-            playerPholder = ImageIO.read(getClass().getResourceAsStream("/player/LilDude.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_2.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -54,12 +61,66 @@ public class Player extends Entity {
             direction = "right";
             x += speed;
         }
+        if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+            spriteCounter++;
+            if(spriteCounter > 15) {
+                if(spriteNum == 1) {
+                    spriteNum = 2;
+                }
+                else if(spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
         // g2.setColor(Color.white);
         // g2.fillRect(x, y, gp.tileSize, gp.tileSize);
-        BufferedImage image = playerPholder;
+        BufferedImage image = null;
+        switch(direction) {
+            case "up":
+                if(spriteNum == 1)
+                {
+                    image = up1;
+                }
+                if(spriteNum == 2)
+                {
+                    image = up2;
+                }
+                break;
+            case "down":
+                if(spriteNum == 1)
+                {
+                    image = down1;
+                }
+                if(spriteNum == 2)
+                {
+                    image = down2;
+                }
+                break;
+            case "left":
+                if(spriteNum == 1)
+                {
+                    image = left1;
+                }
+                if(spriteNum == 2)
+                {
+                    image = left2;
+                }
+                break;
+            case "right":
+                if(spriteNum == 1)
+                {
+                    image = right1;
+                }
+                if(spriteNum == 2)
+                {
+                    image = right2;
+                }
+                break;
+        }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
 }
