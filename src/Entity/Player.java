@@ -63,7 +63,7 @@ public class Player extends Entity {
         }
         if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
             spriteCounter++;
-            if(spriteCounter > 15) {
+            if(spriteCounter > 10) {
                 if(spriteNum == 1) {
                     spriteNum = 2;
                 }
