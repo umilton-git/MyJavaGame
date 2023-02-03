@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import Entity.Player;
 import Tile.TileManager;
+import object.SuperObject;
 
 public class GamePanel extends JPanel implements Runnable{
     // Screen Settings
@@ -32,18 +33,24 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public ObjectHandler oHandler = new ObjectHandler(this);
     public Player player = new Player(this, keyH);
 
     // Set player's default position
     int playerX = 100;
     int playerY = 100;
     int playerSpeed = 4;
+    public SuperObject obj[] = new SuperObject[10]; // Can display up to 10 objects at a time
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        oHandler.setObject();
     }
 
     public void startGameThread() {
@@ -126,7 +133,20 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+
+        // TILE
         tileM.draw(g2);
+
+        // OBJECT
+        for(int i = 0; i < obj.length; i++)
+        {
+            if(obj[i] != null)
+            {
+                obj[i].draw(g2, this);
+            }
+        }
+
+        // PLAYER
         player.draw(g2);
         g2.dispose();
     }
